@@ -42,6 +42,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.graphics.Color
 import java.nio.file.WatchEvent
+import androidx.compose.runtime.saveable.rememberSaveable
 
 data class ShoppingItem(val id:Int, var name: String, var quantity : Int, var isEditing : Boolean = false)
 
@@ -49,7 +50,11 @@ data class ShoppingItem(val id:Int, var name: String, var quantity : Int, var is
 
 @Composable
 fun ShoppingListApp(){
-    var sItems by remember{ mutableStateOf(listOf<ShoppingItem>()) }
+
+
+    var sItems by rememberSaveable {
+        mutableStateOf(listOf<ShoppingItem>())
+    }
 
     var showDialog by remember { mutableStateOf( value = false ) }
     var itemName by remember { mutableStateOf(value = "")
@@ -122,14 +127,42 @@ fun ShoppingListApp(){
             title = {Text(text = "Add shopping item")},
             text = {
                 Column {
-                    OutlinedTextField(value = itemName, onValueChange = {itemName = it},
+                    OutlinedTextField(
+                        value = itemName,
+                        onValueChange = { itemName = it },
+                        label = {
+                            Text(
+                                text = "Item Name",
+                                color = Color.LightGray
+                            )
+                        },
+                        placeholder = {
+                            Text(
+                                text = "Enter item name",
+                                color = Color.Gray
+                            )
+                        },
                         singleLine = true,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp)
-                        )
+                    )
 
-                    OutlinedTextField(value = itemQuantity, onValueChange = {itemQuantity = it},
+                    OutlinedTextField(
+                        value = itemQuantity,
+                        onValueChange = { itemQuantity = it },
+                        label = {
+                            Text(
+                                text = "Quantity",
+                                color = Color.LightGray
+                            )
+                        },
+                        placeholder = {
+                            Text(
+                                text = "Enter quantity",
+                                color = Color.Gray
+                            )
+                        },
                         singleLine = true,
                         modifier = Modifier
                             .fillMaxWidth()
